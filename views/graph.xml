@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<data>
+
+        <record model="ir.ui.view" id="sale_invoice_graph">
+        	<field name="name">Product invoice</field>
+        	<field name="model">stock.sold.qty</field>
+        	<field name="arch" type="xml">
+        		<graph> 
+                    	<field name="invoice"/>
+                        <field name="qty" type="measure"/>
+        		</graph>
+        	</field>
+         </record>
+
+	</data>
+</odoo>
+

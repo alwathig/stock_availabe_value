@@ -1,0 +1,89 @@
+<odoo>
+    <report id="stock_sold_qty_report"
+            model="stock.sold.qty"
+            string="Products Sold Qunatities"
+            report_type="qweb-pdf"
+            name="stock_sold_qty.stock_sold_qty_view"
+            menu="False"/>
+
+    <template id="stock_sold_qty_view">
+        <t t-call="web.html_container">
+            <t t-call="web.external_layout">
+                <div class="page">
+                    <br/>
+                    <h2 class="text-center" style="border: 1px solid lightgray; padding: 10px 10px;">
+                        <span>Products Sold Quantities</span>
+                    </h2>
+                    <br/>
+                    <table class="table table-sm table-striped" style="border: 1px solid lightgray;">
+                        <thead>
+                            <tr>
+                                <th scope="col">Username</th>
+                                <th scope="col"><span t-esc="request.env.user.name"/></th>
+                                <th scope="col">Print Date</th>
+                                <th scope="col"><span t-if="today" t-esc="today"/> </th>
+                            </tr>
+                        </thead>
+                    </table>
+                    <t t-set="count" t-value="0"/>
+                    <table class="table table-bordered table-sm text-center">
+                        <thead class="thead-light">
+                            <tr>
+                                <th scope="col">Invoice</th>
+                                <th scope="col">product</th>
+                                <th scope="col">qty</th>
+                                <th scope="col">Purchased qty</th>
+                                <th scope="col">cost</th>
+                                <th scope="col">sub total cost</th>
+
+                            </tr>
+                        </thead>
+                        <tbody class="sale_tbody">
+                            <t t-set="total" t-value="0"/>
+                            <t t-set="currency_id" t-value="1"/>
+                            <t t-foreach="docs" t-as="line">
+                                <tr>
+                                    <!-- <td scope="row"><span t-esc="line['invoice_type']"> </span></td> -->
+                                    <td scope="row"><span t-esc="line['invoice']"> </span></td>
+                                    <td scope="row"><span t-esc="line['product']"> </span></td>
+                                    <td scope="row"><span t-esc="line['qty']"></span></td>
+                                    <td scope="row"><span t-esc="line['purchase_qty']"></span></td>
+                                    <td scope="row"><span t-esc="line['cost']"></span></td>
+                                    <td scope="row"><span t-esc="line['sub_total_cost']"></span></td>
+                                    <t t-set="total" t-value="total + line['sub_total_cost']"/>
+                                    <!-- <t t-set="currency_id" t-value="request.env['res.currency'].search([('id','=',line['currency_id'])])"/> -->
+                                </tr>
+                            </t>
+                            <tr class="bg-success">
+                                <td>
+                                    <b>
+                                        <span>#</span>
+                                    </b>
+                                </td>
+                                <td>
+                                    <b>
+                                        <span>#</span>
+                                    </b>
+                                </td>
+                                <td>
+                                    <b>
+                                        <span>#</span>
+                                    </b>
+                                </td>
+                                <td>
+                                    <b>
+                                         <span t-esc="total"></span>
+                                        <!-- <span t-esc="float('{:.2f}'.format(total))" t-options="{'widget':'monetary','display_currency':currency_id}" style="color: black"></span> -->
+                                    </b>
+                                </td>                               
+                            </tr>
+
+
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+
+</odoo>
